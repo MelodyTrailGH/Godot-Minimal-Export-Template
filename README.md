@@ -2,9 +2,14 @@
 
 A grouping of the smallest export templates possible in Godot.
 
-## Feature list
+**PLEASE READ THIS!**
 
-pp
+```txt
+Due to the fact that these export templates are very small.
+THERE will be A LOT OF FEATURES MISSING!
+
+Edit the template build profile below to edit it for your needs.
+```
 
 ## Guide
 
@@ -179,14 +184,26 @@ scons platform=x11 target=release bits=64 profile=custom.py && scons platform=x1
 
 * [Docker](https://www.docker.com)
 
+**Notice!**
+
+```txt
+This part of the guide was designed for root-less docker in mind.
+If you have a standard Docker installation, remember to add "sudo" to the beginning of the docker commands.
+(Ignore this if you're a root/wheel user.)
+```
+
 **Creating the container:**
 
 This one-liner should get you into a Ubuntu 16.04 interactive container.
 *(Remove the sudo placeholder if you're using rootless docker.)*
 
 ```sh
-<sudo> docker pull ubuntu:16.04 && \
-<sudo> docker run -it --name godot-linux-build b6f507652425
+docker pull ubuntu:18.04 && \
+docker run -it --name godot-linux-build f9a80a55f492
+```
+
+```sh
+docker pull ubuntu:18.04 && docker run -it --name godot-linux-build f9a80a55f492
 ```
 
 Now that you're in the container, you're going to need to manually build the tools required  
@@ -201,13 +218,61 @@ apt-get update
 Now we can install all the required packages
 
 ```sh
+apt-get install -y \
+python3 \
+python3-venv \
+python3-pip \
+build-essential \
+gcc-multilib \
+pkg-config \
+libx11-dev \
+libxcursor-dev \
+libxinerama-dev \
+libgl1-mesa-dev \
+libglu-dev \
+libasound2-dev \
+libpulse-dev \
+libudev-dev \
+libxi-dev \
+libxrandr-dev \
+yasm \
+libssl-dev \
+software-properties-common
+```
+
+or
+
+```sh
 apt-get install -y python3 python3-venv python3-pip build-essential gcc-multilib pkg-config libx11-dev libxcursor-dev libxinerama-dev libgl1-mesa-dev libglu-dev libasound2-dev libpulse-dev libudev-dev libxi-dev libxrandr-dev  yasm libssl-dev software-properties-common
 ```
 
-We also need the 32-bit versions as well
+We also need the 32-bit versions as well:
+
+*Run this command first to add 32-bit support to apt.*
 
 ```sh
-dpkg --add-architecture i386 && apt-get update && apt-get -y install multiarch-support:i386 #Run this first
+dpkg --add-architecture i386 && apt-get update && apt-get -y install multiarch-support:i386
+```
+
+then run
+
+```sh
+apt-get install -y \
+libx11-dev:i386 \
+libxcursor-dev:i386 \
+libxinerama-dev:i386 \
+libgl1-mesa-dev:i386 \
+libglu-dev:i386 \
+libasound2-dev:i386 \
+libpulse-dev:i386 \
+libudev-dev:i386 \
+libxi-dev:i386 \
+libxrandr-dev:i386
+```
+
+or
+
+```sh
 apt-get install -y libx11-dev:i386 libxcursor-dev:i386 libxinerama-dev:i386 libgl1-mesa-dev:i386 libglu-dev:i386 libasound2-dev:i386 libpulse-dev:i386 libudev-dev:i386 libxi-dev:i386 libxrandr-dev:i386
 ```
 
